@@ -1,10 +1,16 @@
 import '../styles/Categories.css'
 
-function Categories({ setActiveCategory, categories, activeCategory }) {
+type CategoriesProps = {
+	categories: string []
+	activeCategory : string
+	setActiveCategory : (value: string)=> void
+}
+
+function Categories({ setActiveCategory, categories, activeCategory }:CategoriesProps) {
 	return (
 		<div className='lmj-categories'>
 			<div className='lmj-categories-tags'>
-				<button 
+				<button
 					className={`lmj-category-tag ${activeCategory === '' ? 'active' : ''}`}
 					onClick={() => setActiveCategory('')}
 				>

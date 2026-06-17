@@ -1,5 +1,7 @@
+import type {PaymentData, PaymentResult} from "../types.ts";
+
 export class PaymentService {
-  static async processPayment(paymentData) {
+  static async processPayment(paymentData:PaymentData):Promise<PaymentResult> {
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     // Simulation d'un paiement réussi ou refusé
@@ -10,7 +12,7 @@ export class PaymentService {
         success: true,
         transactionId: `txn_${Date.now()}_${Math.random()
           .toString(36)
-          .substr(2, 9)}`,
+          .substring(2, 11)}`,
         amount: paymentData.amount,
         currency: "EUR",
         status: "succeeded",
@@ -23,7 +25,7 @@ export class PaymentService {
     }
   }
 
-  static async validatePaymentMethod(paymentMethod) {
+  static async validatePaymentMethod(paymentMethod: PaymentData) {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     const isValid =

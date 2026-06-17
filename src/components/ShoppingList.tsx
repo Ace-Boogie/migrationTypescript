@@ -3,16 +3,23 @@ import { plantList } from '../datas/plantList'
 import PlantItem from './ui/PlantItem'
 import Categories from './Categories'
 import '../styles/ShoppingList.css'
+import type {CartItem, Plant} from '../types'
 
-function ShoppingList({ cart, addToCart }) {
+type ShoppingListProps = {
+	cart : CartItem[]
+	addToCart: (item: Pick<Plant, 'name' | 'price'>) => void
+
+}
+
+function ShoppingList({ addToCart } : ShoppingListProps) {
 	const [activeCategory, setActiveCategory] = useState('')
-	const categories = plantList.reduce(
+	const categories = plantList.reduce<string[]>(
 		(acc, plant) =>
 			acc.includes(plant.category) ? acc : acc.concat(plant.category),
 		[]
 	)
 
-	const handleAddToCart = (name, price) => {
+	const handleAddToCart = (name: string, price: number) => {
 		addToCart({ name, price })
 	}
 
@@ -25,15 +32,13 @@ function ShoppingList({ cart, addToCart }) {
 			/>
 
 			<ul className='lmj-plant-list'>
-				{plantList.map(({ id, cover, name, water, light, price, category }) =>
+				{plantList.map(({ id, cover, name, price, category }) =>
 					!activeCategory || activeCategory === category ? (
 						<li key={id}>
 							<PlantItem
 								id={id}
 								cover={cover}
 								name={name}
-								water={water}
-								light={light}
 								price={price}
 								onAddToCart={() => handleAddToCart(name, price)}
 							/>
